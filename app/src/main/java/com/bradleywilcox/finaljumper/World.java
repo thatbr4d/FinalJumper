@@ -20,6 +20,8 @@ public class World {
     public void update(float delta){
         hero.update(delta);
 
+        if(Collisions.isColliding(hero, platform))
+            hero.hitPlatform();
     }
 
     public void render(Canvas canvas){
