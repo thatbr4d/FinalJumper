@@ -19,12 +19,18 @@ public class Game extends SurfaceView implements Runnable {
     private Thread gameThread = null;
     private SurfaceHolder holder;
     private volatile boolean running = false;
+    private FPSCounter fps;
+
+    private World world;
 
     public Game(Context context, Bitmap buffer) {
         super(context);
         frameBuffer = buffer;
         gameCanvas = new Canvas(frameBuffer);
         holder = getHolder();
+        fps = new FPSCounter();
+
+        world = new World();
     }
 
     @Override
@@ -48,11 +54,13 @@ public class Game extends SurfaceView implements Runnable {
             canvas.getClipBounds(rect);
             canvas.drawBitmap(frameBuffer, null, rect, null);
             holder.unlockCanvasAndPost(canvas);
+
+            fps.logFrame();
         }
     }
 
     public void update(float deltaTime) {
-
+        world.update(deltaTime);
     }
 
     public void render(float deltaTime) {
@@ -63,6 +71,8 @@ public class Game extends SurfaceView implements Runnable {
         Rect bg = new Rect(0, 0, 320, 480);
         gameCanvas.drawRect(bg, paint);
 
+        //game world
+        world.render(gameCanvas);
     }
 
     public void resume() {
