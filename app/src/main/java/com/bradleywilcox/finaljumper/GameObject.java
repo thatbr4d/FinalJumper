@@ -4,7 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 
 /**
- * Created by Brad on 4/17/2017.
+ *
+ * Brad Wilcox / Michael Cha
+ * CSCI 4020 Final Project
+ *
  */
 
 public class GameObject {
