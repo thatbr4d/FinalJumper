@@ -11,10 +11,16 @@ import android.view.SurfaceView;
 import android.widget.ImageView;
 
 /**
- * Created by Brad on 4/16/2017.
+ *
+ * Brad Wilcox / Michael Cha
+ * CSCI 4020 Final Project
+ *
  */
 
 public class Game extends SurfaceView implements Runnable {
+    public static final int BUFFER_WIDTH = 320;
+    public static final int BUFFER_HEIGHT = 480;
+
     private Canvas gameCanvas;
     private Bitmap frameBuffer;
     private Thread gameThread = null;
@@ -23,6 +29,8 @@ public class Game extends SurfaceView implements Runnable {
     private FPSCounter fps;
 
     private World world;
+    private Rect background;
+    private Paint backgroundPaint;
 
     public Game(Context context, Bitmap buffer) {
         super(context);
@@ -30,6 +38,9 @@ public class Game extends SurfaceView implements Runnable {
         gameCanvas = new Canvas(frameBuffer);
         holder = getHolder();
         fps = new FPSCounter();
+
+        background = new Rect(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
+        backgroundPaint = new Paint(Color.BLACK);
 
         world = new World();
     }
@@ -65,12 +76,8 @@ public class Game extends SurfaceView implements Runnable {
     }
 
     public void render(float deltaTime) {
-        Paint paint = new Paint();
-        paint.setColor(Color.BLUE);
-
         //background
-        Rect bg = new Rect(0, 0, 320, 480);
-        gameCanvas.drawRect(bg, paint);
+        gameCanvas.drawRect(background, backgroundPaint);
 
         //game world
         world.render(gameCanvas);
