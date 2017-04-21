@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 
 
@@ -22,11 +23,11 @@ import android.util.TypedValue;
 
 public class Hero extends GameObject{
 
-    private static final int JUMP_VELOCITY = -50;
+    private static final int JUMP_VELOCITY = -175;
+    private static final int MOVE_VELOCITY = 50;
 
     private Paint paint;
     private PointF velocity;
-    private Bitmap character;
     private RectF drawingRect;
 
 
@@ -45,24 +46,52 @@ public class Hero extends GameObject{
 
     @Override
     public void update(float delta) {
+        if(InputHandler.moveLeft)
+            velocity.x = -MOVE_VELOCITY;
+        else if(InputHandler.moveRight)
+            velocity.x = MOVE_VELOCITY;
+        else
+            velocity.x = 0;
+
+
         velocity.y += World.GRAVITY * delta;
         x += velocity.x * delta;
         y += velocity.y * delta;
+
+        if(x > Game.BUFFER_WIDTH)
+            x = 0;
+        else if(x < 0)
+            x = Game.BUFFER_WIDTH;
+
 
     }
 
     @Override
     public void render(Canvas canvas) {
         //canvas.drawRect(x, y, x + width, y + height, paint);
+
         drawingRect.set(x, y, x + width, y  + height);
         if(velocity.y < 0)
             canvas.drawBitmap(Assets.heroJump, null, drawingRect, null);
         else
             canvas.drawBitmap(Assets.heroStand, null, drawingRect, null);
+
     }
 
     public void hitPlatform() {
         velocity.y = JUMP_VELOCITY;
+    }
+
+    public float getVelocityY(){
+        return this.velocity.y;
+    }
+
+    public float getHeroX(){
+        return this.x;
+    }
+
+    public float getHeroY(){
+        return this.y;
     }
 
 }

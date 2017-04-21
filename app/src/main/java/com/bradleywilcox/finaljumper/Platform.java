@@ -16,8 +16,8 @@ public class Platform extends GameObject {
     private Paint paint;
 
     public Platform(int x, int y) {
-        this.width = 100;
-        this.height = 10;
+        this.width = 40;
+        this.height = 5;
 
         paint = new Paint();
         paint.setColor(Color.WHITE);
@@ -30,5 +30,6 @@ public class Platform extends GameObject {
     public void render(Canvas canvas) {
         canvas.drawRect(x, y, x + width, y + height, paint);
     }
+
 
 }
