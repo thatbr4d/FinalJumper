@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 
 
@@ -22,11 +23,11 @@ import android.util.TypedValue;
 
 public class Hero extends GameObject{
 
-    private static final int JUMP_VELOCITY = -50;
+    private static final int JUMP_VELOCITY = -175;
+    private static final int MOVE_VELOCITY = 50;
 
     private Paint paint;
     private PointF velocity;
-    private Bitmap character;
     private RectF drawingRect;
 
 
@@ -45,6 +46,14 @@ public class Hero extends GameObject{
 
     @Override
     public void update(float delta) {
+        if(InputHandler.moveLeft)
+            velocity.x = -MOVE_VELOCITY;
+        else if(InputHandler.moveRight)
+            velocity.x = MOVE_VELOCITY;
+        else
+            velocity.x = 0;
+
+
         velocity.y += World.GRAVITY * delta;
         x += velocity.x * delta;
         y += velocity.y * delta;

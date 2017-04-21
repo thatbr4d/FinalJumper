@@ -10,7 +10,7 @@ import android.graphics.Canvas;
  */
 
 public class World {
-    public static final int GRAVITY = 30;
+    public static final int GRAVITY = 100;
 
     private Hero hero;
     private Platform platform;
@@ -25,6 +25,8 @@ public class World {
 
         if(Collisions.isColliding(hero, platform))
             hero.hitPlatform();
+
+        //InputHandler.reset();
     }
 
     public void render(Canvas canvas){
