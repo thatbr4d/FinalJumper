@@ -24,11 +24,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 public class MainActivity extends AppCompatActivity {
     private Game game;
     private Assets gameAssets;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
         game = new Game(this, buffer);
 
         setContentView(game);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -56,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onKeyUp(int i, KeyEvent keyEvent){
-        Log.i("UP", "UP");
         if (keyEvent.getAction() == KeyEvent.ACTION_UP) {
 
             switch(i){

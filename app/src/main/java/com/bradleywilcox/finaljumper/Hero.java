@@ -58,11 +58,16 @@ public class Hero extends GameObject{
         x += velocity.x * delta;
         y += velocity.y * delta;
 
+        if(x > Game.BUFFER_WIDTH)
+            x = 0;
+        else if(x < 0)
+            x = Game.BUFFER_WIDTH;
     }
 
     @Override
     public void render(Canvas canvas) {
         //canvas.drawRect(x, y, x + width, y + height, paint);
+
         drawingRect.set(x, y, x + width, y  + height);
         if(velocity.y < 0)
             canvas.drawBitmap(Assets.heroJump, null, drawingRect, null);
@@ -72,6 +77,18 @@ public class Hero extends GameObject{
 
     public void hitPlatform() {
         velocity.y = JUMP_VELOCITY;
+    }
+
+    public float getVelocityY(){
+        return this.velocity.y;
+    }
+
+    public float getHeroX(){
+        return this.x;
+    }
+
+    public float getHeroY(){
+        return this.y;
     }
 
 }

@@ -47,4 +47,8 @@ public class GameObject {
         point2D.set(x + width, y + height);
         return point2D;
     }
+
+    public void addOffsetY(float offset){
+        this.y += offset;
+    }
 }

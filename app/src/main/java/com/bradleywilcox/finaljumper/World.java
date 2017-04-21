@@ -2,6 +2,8 @@ package com.bradleywilcox.finaljumper;
 
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
+
 /**
  *
  * Brad Wilcox / Michael Cha
@@ -13,24 +15,58 @@ public class World {
     public static final int GRAVITY = 100;
 
     private Hero hero;
-    private Platform platform;
+    private ArrayList<Platform> platforms;
+
+    private int offsetPosition;
 
     public World(){
-        hero = new Hero(160, 25);
-        platform = new Platform(100, 300);
+        hero = new Hero(160, 255);
+        platforms = new ArrayList<>(25);
+
+        generateWorld();
+
+        offsetPosition = Game.BUFFER_HEIGHT / 4;
+    }
+
+    public void generateWorld(){
+        int y = Game.BUFFER_HEIGHT;
+        for(int i = 0; i < 25; i++){
+            platforms.add(new Platform(140, y));
+            y -= 100;
+        }
     }
 
     public void update(float delta){
         hero.update(delta);
 
-        if(Collisions.isColliding(hero, platform))
-            hero.hitPlatform();
+        if(hero.getVelocityY() > 0)
+            for(Platform p : platforms){
+                if(Collisions.isColliding(hero, p)) {
+                    hero.hitPlatform();
+                    break;
+                }
+            }
+
+        if(hero.getHeroY() < offsetPosition)
+            addWorldOffset(offsetPosition - hero.getHeroY());
 
         //InputHandler.reset();
     }
 
     public void render(Canvas canvas){
         hero.render(canvas);
-        platform.render(canvas);
+
+        for(Platform p : platforms){
+            p.render(canvas);
+        }
+
+    }
+
+    public void addWorldOffset(float offset){
+        for(Platform p : platforms){
+            p.addOffsetY(offset);
+        }
+
+        hero.addOffsetY(offset);
     }
 }
