@@ -62,6 +62,8 @@ public class Hero extends GameObject{
             x = 0;
         else if(x < 0)
             x = Game.BUFFER_WIDTH;
+
+
     }
 
     @Override
@@ -73,6 +75,7 @@ public class Hero extends GameObject{
             canvas.drawBitmap(Assets.heroJump, null, drawingRect, null);
         else
             canvas.drawBitmap(Assets.heroStand, null, drawingRect, null);
+
     }
 
     public void hitPlatform() {

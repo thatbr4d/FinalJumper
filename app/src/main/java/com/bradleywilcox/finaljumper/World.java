@@ -16,12 +16,14 @@ public class World {
 
     private Hero hero;
     private ArrayList<Platform> platforms;
+    private Score score;
 
     private int offsetPosition;
 
     public World(){
         hero = new Hero(160, 255);
         platforms = new ArrayList<>(25);
+        score = new Score();
 
         generateWorld();
 
@@ -60,6 +62,7 @@ public class World {
             p.render(canvas);
         }
 
+        score.render(canvas);
     }
 
     public void addWorldOffset(float offset){
@@ -68,5 +71,7 @@ public class World {
         }
 
         hero.addOffsetY(offset);
+
+        score.incrementScore(offset);
     }
 }
