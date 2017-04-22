@@ -36,6 +36,7 @@ public class Game extends SurfaceView implements Runnable {
     private SurfaceHolder holder;
     private volatile boolean running = false;
     private FPSCounter fps;
+    private int counter = 0;
 
     private GameState gameState;
     private World world;
@@ -97,6 +98,7 @@ public class Game extends SurfaceView implements Runnable {
             gameState = GameState.GAME_OVER;
             Data.saveHighScore();
         }
+
     }
 
     public void render(float deltaTime) {
@@ -107,8 +109,22 @@ public class Game extends SurfaceView implements Runnable {
         world.render(gameCanvas);
 
         // Temporary, would be nice to have a graphic with play/restart/quit buttons or something
-        if(gameState == GameState.GAME_OVER)
+        if (gameState == GameState.GAME_OVER) {
             gameCanvas.drawText("GAME OVER", 135, 240, tempPaint);
+            gameLost(true);
+            counter +=1;
+        }
+        else
+            counter = 0;
+
+    }
+
+    public void gameLost(boolean state)
+    {
+        if(state==true && counter ==1)
+        {
+            SoundFiles.playSound(3);
+        }
     }
 
     public void resume() {

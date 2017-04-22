@@ -15,6 +15,7 @@ import android.util.Log;
 public class Score extends GameObject {
     private float highscore;
     private float score;
+    private int counter = 0;
     private Paint paint;
 
     private float highScoreY;
@@ -50,9 +51,21 @@ public class Score extends GameObject {
 
         if(this.score > highscore){
             Data.HighScore = this.score;
+            gameHigh(true);
+            counter+=1;
         }
+        else
+        counter = 0;
 
         addOffsetY(score);
+    }
+
+    public void gameHigh(Boolean state)
+    {
+        if(state == true && counter==1)
+        {
+            SoundFiles.playSound(2);
+        }
     }
 
     @Override
