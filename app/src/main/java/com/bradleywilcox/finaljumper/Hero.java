@@ -9,9 +9,15 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -29,6 +35,9 @@ public class Hero extends GameObject{
     private Paint paint;
     private PointF velocity;
     private RectF drawingRect;
+    private Sounds gameSounds;
+
+
 
 
     public Hero(int x, int y) {
@@ -37,6 +46,7 @@ public class Hero extends GameObject{
         paint = new Paint();
         paint.setColor(Color.RED);
         velocity = new PointF(0, 0);
+        gameSounds = new Sounds();
 
         this.x = x;
         this.y = y;
@@ -78,7 +88,10 @@ public class Hero extends GameObject{
 
     public void hitPlatform() {
         velocity.y = JUMP_VELOCITY;
+        gameSounds.playSound(1);
+
     }
+
 
     public float getVelocityY(){
         return this.velocity.y;

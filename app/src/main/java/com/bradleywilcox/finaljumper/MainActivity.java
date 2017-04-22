@@ -2,6 +2,8 @@ package com.bradleywilcox.finaljumper;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
+import java.util.HashSet;
+
 /**
  * Brad Wilcox / Michael Cha
  * CSCI 4020 Final Project
@@ -19,6 +23,9 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
     private Game game;
     private Assets gameAssets;
+    private Sounds gameSound;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         game = new Game(this, buffer);
 
         setContentView(game);
+
     }
 
 
@@ -80,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
         fullScreen();
 
         game.resume();
+
     }
+
 
     private void fullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
