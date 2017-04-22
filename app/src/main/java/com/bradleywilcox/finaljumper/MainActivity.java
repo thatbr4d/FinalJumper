@@ -15,7 +15,6 @@ import android.view.View;
 
 import java.util.HashSet;
 
-
 /**
  * Brad Wilcox / Michael Cha
  * CSCI 4020 Final Project
@@ -31,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Data.context = getApplicationContext();
+        Data.HighScore = Data.loadHighScore();
 
         Bitmap buffer = Bitmap.createBitmap(Game.BUFFER_WIDTH, Game.BUFFER_HEIGHT, Bitmap.Config.RGB_565);
 
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+
+        Data.saveHighScore();
         game.pause();
     }
 
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         fullScreen();
+
         game.resume();
 
     }
