@@ -62,8 +62,6 @@ public class Hero extends GameObject{
             x = 0;
         else if(x < 0)
             x = Game.BUFFER_WIDTH;
-
-
     }
 
     @Override
@@ -92,6 +90,10 @@ public class Hero extends GameObject{
 
     public float getHeroY(){
         return this.y;
+    }
+
+    public int getHeroHeight(){
+        return this.height;
     }
 
 }

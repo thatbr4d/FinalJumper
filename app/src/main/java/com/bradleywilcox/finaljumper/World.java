@@ -1,6 +1,8 @@
 package com.bradleywilcox.finaljumper;
 
+import android.app.Application;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -21,17 +23,17 @@ public class World {
     private int offsetPosition;
 
     public World(){
-        hero = new Hero(160, 255);
+        hero = new Hero(160, 430);
         platforms = new ArrayList<>(25);
         score = new Score();
 
         generateWorld();
 
-        offsetPosition = Game.BUFFER_HEIGHT / 4;
+        offsetPosition = Game.BUFFER_HEIGHT / 2;
     }
 
     public void generateWorld(){
-        int y = Game.BUFFER_HEIGHT;
+        int y = Game.BUFFER_HEIGHT-10;
         for(int i = 0; i < 25; i++){
             platforms.add(new Platform(140, y));
             y -= 100;
@@ -73,5 +75,12 @@ public class World {
         hero.addOffsetY(offset);
 
         score.incrementScore(offset);
+    }
+
+    public boolean isGameOver(){
+        if(hero.getHeroY() + hero.getHeroHeight() > Game.BUFFER_HEIGHT)
+            return true;
+
+        return false;
     }
 }

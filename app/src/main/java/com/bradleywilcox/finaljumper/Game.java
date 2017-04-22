@@ -21,6 +21,12 @@ import android.widget.ImageView;
  */
 
 public class Game extends SurfaceView implements Runnable {
+
+    public enum GameState{
+        RUNNING,
+        GAME_OVER
+    }
+
     public static final int BUFFER_WIDTH = 320;
     public static final int BUFFER_HEIGHT = 480;
 
@@ -31,12 +37,18 @@ public class Game extends SurfaceView implements Runnable {
     private volatile boolean running = false;
     private FPSCounter fps;
 
+    private GameState gameState;
     private World world;
     private Rect background;
     private Paint backgroundPaint;
 
+    private Paint tempPaint;
+
+    private Context context;
+
     public Game(Context context, Bitmap buffer) {
         super(context);
+        this.context = context;
         frameBuffer = buffer;
         gameCanvas = new Canvas(frameBuffer);
         holder = getHolder();
@@ -44,7 +56,10 @@ public class Game extends SurfaceView implements Runnable {
 
         background = new Rect(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
         backgroundPaint = new Paint(Color.BLACK);
+        tempPaint = new Paint();
+        tempPaint.setColor(Color.WHITE);
 
+        gameState = GameState.RUNNING;
         world = new World();
     }
 
@@ -75,7 +90,13 @@ public class Game extends SurfaceView implements Runnable {
     }
 
     public void update(float deltaTime) {
-        world.update(deltaTime);
+        if(gameState == GameState.RUNNING)
+            world.update(deltaTime);
+
+        if(world.isGameOver()) {
+            gameState = GameState.GAME_OVER;
+            Data.saveHighScore();
+        }
     }
 
     public void render(float deltaTime) {
@@ -84,6 +105,10 @@ public class Game extends SurfaceView implements Runnable {
 
         //game world
         world.render(gameCanvas);
+
+        // Temporary, would be nice to have a graphic with play/restart/quit buttons or something
+        if(gameState == GameState.GAME_OVER)
+            gameCanvas.drawText("GAME OVER", 135, 240, tempPaint);
     }
 
     public void resume() {
