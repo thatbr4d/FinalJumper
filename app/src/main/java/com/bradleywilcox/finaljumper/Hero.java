@@ -31,14 +31,16 @@ public class Hero extends GameObject{
 
     private static final int JUMP_VELOCITY = -175;
     private static final int MOVE_VELOCITY = 50;
+    public static final int WIDTH = 30;
+    public static final int HEIGHT = 30;
 
     private Paint paint;
     private PointF velocity;
     private RectF drawingRect;
 
     public Hero(int x, int y) {
-        this.width = 30;
-        this.height = 30;
+        this.width = WIDTH;
+        this.height = HEIGHT;
         paint = new Paint();
         paint.setColor(Color.RED);
         velocity = new PointF(0, 0);
