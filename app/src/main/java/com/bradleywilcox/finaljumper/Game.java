@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,8 +59,7 @@ public class Game extends SurfaceView implements Runnable {
     private Paint tempPaint;
 
     private Context context;
-
-    private  ImageView imgPop;
+    private ImageView imgPop;
     private TextView txtPopLose;
     private Button buttLose1, buttLose2;
 
@@ -140,7 +140,13 @@ public class Game extends SurfaceView implements Runnable {
         if(state==true && counter ==1)
         {
             SoundFiles.playSound(3);
-            runPopup2();
+
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    runPopup2();
+                }
+            });
         }
     }
 
@@ -176,6 +182,7 @@ public class Game extends SurfaceView implements Runnable {
             }
         });
     }
+
 
 
     public void resume() {
