@@ -23,9 +23,6 @@ import java.util.HashSet;
 public class MainActivity extends AppCompatActivity {
     private Game game;
     private Assets gameAssets;
-    private Sounds gameSound;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         Data.saveHighScore();
+        SoundFiles.clearSounds();
         game.pause();
     }
 
@@ -87,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         fullScreen();
 
+        SoundFiles.loadSoundPool(getApplicationContext());
         game.resume();
 
     }
