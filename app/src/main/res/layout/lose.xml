@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/pause_menu1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:text="GameOver"
+        android:textSize="30dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:id="@+id/textView3"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Quit"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
+        android:background="@drawable/roundbutton"
+        android:layout_below="@+id/buttonOver"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:id="@+id/buttonOver2" />
+
+    <Button
+        android:text="Restart"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
+        android:background="@drawable/roundbutton"
+        android:layout_marginTop="94dp"
+        android:id="@+id/buttonOver"
+        android:layout_below="@+id/textView3"
+        android:layout_alignStart="@+id/buttonOver2" />
+
+</RelativeLayout>
