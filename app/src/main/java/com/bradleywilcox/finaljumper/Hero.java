@@ -35,10 +35,6 @@ public class Hero extends GameObject{
     private Paint paint;
     private PointF velocity;
     private RectF drawingRect;
-    private Sounds gameSounds;
-
-
-
 
     public Hero(int x, int y) {
         this.width = 30;
@@ -46,7 +42,6 @@ public class Hero extends GameObject{
         paint = new Paint();
         paint.setColor(Color.RED);
         velocity = new PointF(0, 0);
-        gameSounds = new Sounds();
 
         this.x = x;
         this.y = y;
@@ -88,10 +83,8 @@ public class Hero extends GameObject{
 
     public void hitPlatform() {
         velocity.y = JUMP_VELOCITY;
-        gameSounds.playSound(1);
-
+        SoundFiles.playSound(1);
     }
-
 
     public float getVelocityY(){
         return this.velocity.y;
