@@ -24,6 +24,20 @@
         android:layout_alignTop="@+id/imageView"
         android:layout_centerHorizontal="true" />
 
+
+    <Button
+        android:text="Restart"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
+        android:background="@drawable/roundbutton"
+        android:layout_marginTop="96dp"
+        android:id="@+id/buttonOver"
+        android:layout_below="@+id/textView3"
+        android:layout_alignStart="@+id/buttonOver2"
+        android:layout_centerHorizontal="true"/>
+
     <Button
         android:text="Quit"
         android:layout_width="150dp"
@@ -35,17 +49,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="63dp"
         android:id="@+id/buttonOver2" />
-
-    <Button
-        android:text="Restart"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
-        android:textColor="@android:color/white"
-        android:textSize="25dp"
-        android:background="@drawable/roundbutton"
-        android:layout_marginTop="94dp"
-        android:id="@+id/buttonOver"
-        android:layout_below="@+id/textView3"
-        android:layout_alignStart="@+id/buttonOver2" />
 
 </RelativeLayout>
