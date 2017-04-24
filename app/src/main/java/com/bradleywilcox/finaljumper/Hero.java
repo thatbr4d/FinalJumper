@@ -29,8 +29,8 @@ import java.util.Set;
 
 public class Hero extends GameObject{
 
-    private static final int JUMP_VELOCITY = -175;
-    private static final int MOVE_VELOCITY = 50;
+    private static final int JUMP_VELOCITY = -250;
+    private static final int MOVE_VELOCITY = 75;
     public static final int WIDTH = 30;
     public static final int HEIGHT = 30;
 
