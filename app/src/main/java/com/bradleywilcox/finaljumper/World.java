@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -14,18 +15,23 @@ import java.util.ArrayList;
  */
 
 public class World {
-    public static final int GRAVITY = 100;
+    public static final int GRAVITY = 175;
 
     private Hero hero;
     private ArrayList<Platform> platforms;
     private Score score;
 
     private int offsetPosition;
+    private int currentDistanceInterval;
+    private int currentLevelY;
+    private Random rand;
 
     public World(){
-        hero = new Hero(160, 430);
+        hero = new Hero((Game.BUFFER_WIDTH / 2) - (Hero.WIDTH / 2), Game.BUFFER_HEIGHT - Hero.HEIGHT - Platform.HEIGHT * 4);
+
         platforms = new ArrayList<>(25);
         score = new Score();
+        rand = new Random();
 
         generateWorld();
 
@@ -33,10 +39,20 @@ public class World {
     }
 
     public void generateWorld(){
-        int y = Game.BUFFER_HEIGHT-10;
+        int worldHalf = Game.BUFFER_WIDTH / 2;
+        int platformHalf = Platform.WIDTH / 2;
+
+        //starting platform
+        currentLevelY = Game.BUFFER_HEIGHT - Platform.HEIGHT * 2;
+        platforms.add(new Platform(worldHalf - platformHalf, currentLevelY));
+
+        currentDistanceInterval = 50;
+        currentLevelY -= currentDistanceInterval;
+
         for(int i = 0; i < 25; i++){
-            platforms.add(new Platform(140, y));
-            y -= 100;
+            int randX = rand.nextInt(Game.BUFFER_WIDTH - Platform.WIDTH);
+            platforms.add(new Platform(randX, currentLevelY));
+            currentLevelY -= currentDistanceInterval;
         }
     }
 
@@ -45,14 +61,28 @@ public class World {
 
         if(hero.getVelocityY() > 0)
             for(Platform p : platforms){
+                p.update(delta);
+
                 if(Collisions.isColliding(hero, p)) {
-                    hero.hitPlatform();
-                    break;
+                    if((hero.y + hero.height * .5) <= p.y) {
+                        hero.hitPlatform();
+                        break;
+                    }
                 }
             }
 
-        if(hero.getHeroY() < offsetPosition)
-            addWorldOffset(offsetPosition - hero.getHeroY());
+        if(hero.y < offsetPosition)
+            addWorldOffset(offsetPosition - hero.y);
+
+
+        int notActive = 0;
+        for(Platform p : platforms){
+            if(!p.getIsActive())
+                notActive++;
+        }
+        if(notActive > 5) {
+            extendTheLevel();
+        }
 
         //InputHandler.reset();
     }
@@ -75,12 +105,27 @@ public class World {
         hero.addOffsetY(offset);
 
         score.incrementScore(offset);
+
+        currentLevelY += offset;
     }
 
     public boolean isGameOver(){
-        if(hero.getHeroY() + hero.getHeroHeight() > Game.BUFFER_HEIGHT)
+        if(hero.y + hero.height > Game.BUFFER_HEIGHT)
             return true;
 
         return false;
+    }
+
+    private void extendTheLevel(){
+        if(currentDistanceInterval < 160)
+            currentDistanceInterval += 5;
+
+        for(Platform p : platforms){
+            if(!p.getIsActive()) {
+                int randX = rand.nextInt(Game.BUFFER_WIDTH - Platform.WIDTH);
+                p.setPosition(randX, currentLevelY);
+                currentLevelY -= currentDistanceInterval;
+            }
+        }
     }
 }

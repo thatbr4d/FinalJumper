@@ -73,4 +73,7 @@ public class Score extends GameObject {
         highScoreY += offset;
     }
 
+    public float getScore(){
+        return this.score;
+    }
 }

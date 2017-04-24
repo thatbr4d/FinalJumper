@@ -29,16 +29,18 @@ import java.util.Set;
 
 public class Hero extends GameObject{
 
-    private static final int JUMP_VELOCITY = -175;
-    private static final int MOVE_VELOCITY = 50;
+    private static final int JUMP_VELOCITY = -250;
+    private static final int MOVE_VELOCITY = 75;
+    public static final int WIDTH = 30;
+    public static final int HEIGHT = 30;
 
     private Paint paint;
     private PointF velocity;
     private RectF drawingRect;
 
     public Hero(int x, int y) {
-        this.width = 30;
-        this.height = 30;
+        this.width = WIDTH;
+        this.height = HEIGHT;
         paint = new Paint();
         paint.setColor(Color.RED);
         velocity = new PointF(0, 0);
@@ -71,9 +73,8 @@ public class Hero extends GameObject{
 
     @Override
     public void render(Canvas canvas) {
-        //canvas.drawRect(x, y, x + width, y + height, paint);
 
-        drawingRect.set(x, y, x + width, y  + height);
+        drawingRect.set(x, y, x + width, y + height);
         if(velocity.y < 0)
             canvas.drawBitmap(Assets.heroJump, null, drawingRect, null);
         else
@@ -88,18 +89,6 @@ public class Hero extends GameObject{
 
     public float getVelocityY(){
         return this.velocity.y;
-    }
-
-    public float getHeroX(){
-        return this.x;
-    }
-
-    public float getHeroY(){
-        return this.y;
-    }
-
-    public int getHeroHeight(){
-        return this.height;
     }
 
 }

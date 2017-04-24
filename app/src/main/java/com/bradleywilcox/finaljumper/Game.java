@@ -56,8 +56,6 @@ public class Game extends SurfaceView implements Runnable {
     private Rect background;
     private Paint backgroundPaint;
 
-    private Paint tempPaint;
-
     private Context context;
     private ImageView imgPop;
     private TextView txtPopLose;
@@ -73,8 +71,6 @@ public class Game extends SurfaceView implements Runnable {
 
         background = new Rect(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
         backgroundPaint = new Paint(Color.BLACK);
-        tempPaint = new Paint();
-        tempPaint.setColor(Color.WHITE);
 
         gameState = GameState.RUNNING;
         world = new World();
@@ -124,9 +120,8 @@ public class Game extends SurfaceView implements Runnable {
         //game world
         world.render(gameCanvas);
 
-        // Temporary, would be nice to have a graphic with play/restart/quit buttons or something
         if (gameState == GameState.GAME_OVER) {
-            gameCanvas.drawText("GAME OVER", 135, 240, tempPaint);
+            //gameCanvas.drawText("GAME OVER", 135, 240, tempPaint);
             gameLost(true);
             counter +=1;
         }
