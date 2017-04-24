@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -57,7 +58,8 @@ public class Game extends SurfaceView implements Runnable {
     private Paint backgroundPaint;
 
     private Context context;
-    private ImageView imgPop;
+
+    private  ImageView imgPop;
     private TextView txtPopLose;
     private Button buttLose1, buttLose2;
 
@@ -157,7 +159,7 @@ public class Game extends SurfaceView implements Runnable {
         buttLose1 = (Button) popupView.findViewById(R.id.buttonOver);
         buttLose2 = (Button) popupView.findViewById(R.id.buttonOver2);
         txtPopLose = (TextView) popupView.findViewById(R.id.textView3);
-        popupWindow.showAtLocation(popupView, 150, 100, 0);
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 
         buttLose1.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -177,7 +179,6 @@ public class Game extends SurfaceView implements Runnable {
             }
         });
     }
-
 
 
     public void resume() {
