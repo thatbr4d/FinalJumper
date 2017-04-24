@@ -2,31 +2,35 @@ package com.bradleywilcox.finaljumper;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.AudioAttributes;
-import android.media.SoundPool;
-import android.net.Uri;
-import android.renderscript.ScriptGroup;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ActivityChooserView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-
-import java.util.HashSet;
+import android.view.WindowManager;
 
 /**
  * Brad Wilcox / Michael Cha
  * CSCI 4020 Final Project
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private Game game;
     private Assets gameAssets;
+
+    private SensorManager sensorManager;
+    private Sensor accel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Data.context = getApplicationContext();
         Data.HighScore = Data.loadHighScore();
@@ -37,10 +41,26 @@ public class MainActivity extends AppCompatActivity {
         gameAssets.heroJump = BitmapFactory.decodeResource(getResources(), R.drawable.jump);
         gameAssets.heroStand = BitmapFactory.decodeResource(getResources(), R.drawable.standing);
 
+        sensorManager = (SensorManager) getSystemService(getApplicationContext().SENSOR_SERVICE);
+        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         game = new Game(this, buffer);
 
         setContentView(game);
+    }
 
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+
+        float accelX = sensorEvent.values[0];
+        if(accelX > .5) {
+            InputHandler.moveLeft = true;
+            InputHandler.moveRight = false;
+        }else if (accelX < -.5){
+            InputHandler.moveRight = true;
+            InputHandler.moveLeft = false;
+        }
     }
 
 
@@ -76,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         Data.saveHighScore();
-        SoundFiles.clearSounds();
         game.pause();
+        SoundFiles.clearSounds();
+
+        sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -86,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
         fullScreen();
 
         SoundFiles.loadSoundPool(getApplicationContext());
-        game.resume();
+        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_GAME);
 
+        game.resume();
     }
 
 
@@ -99,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 
     //TODO: add asset cleanup
