@@ -73,9 +73,8 @@ public class Hero extends GameObject{
 
     @Override
     public void render(Canvas canvas) {
-        //canvas.drawRect(x, y, x + width, y + height, paint);
 
-        drawingRect.set(x, y, x + width, y  + height);
+        drawingRect.set(x, y, x + width, y + height);
         if(velocity.y < 0)
             canvas.drawBitmap(Assets.heroJump, null, drawingRect, null);
         else
@@ -90,18 +89,6 @@ public class Hero extends GameObject{
 
     public float getVelocityY(){
         return this.velocity.y;
-    }
-
-    public float getHeroX(){
-        return this.x;
-    }
-
-    public float getHeroY(){
-        return this.y;
-    }
-
-    public int getHeroHeight(){
-        return this.height;
     }
 
 }

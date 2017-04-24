@@ -27,7 +27,7 @@ public class World {
     private Random rand;
 
     public World(){
-        hero = new Hero((Game.BUFFER_WIDTH / 2) - (Hero.WIDTH / 2), Game.BUFFER_HEIGHT - Hero.HEIGHT - Platform.HEIGHT * 2);
+        hero = new Hero((Game.BUFFER_WIDTH / 2) - (Hero.WIDTH / 2), Game.BUFFER_HEIGHT - Hero.HEIGHT - Platform.HEIGHT * 4);
 
         platforms = new ArrayList<>(25);
         score = new Score();
@@ -64,13 +64,15 @@ public class World {
                 p.update(delta);
 
                 if(Collisions.isColliding(hero, p)) {
-                    hero.hitPlatform();
-                    break;
+                    if((hero.y + hero.height * .5) <= p.y) {
+                        hero.hitPlatform();
+                        break;
+                    }
                 }
             }
 
-        if(hero.getHeroY() < offsetPosition)
-            addWorldOffset(offsetPosition - hero.getHeroY());
+        if(hero.y < offsetPosition)
+            addWorldOffset(offsetPosition - hero.y);
 
 
         int notActive = 0;
@@ -108,15 +110,16 @@ public class World {
     }
 
     public boolean isGameOver(){
-        if(hero.getHeroY() + hero.getHeroHeight() > Game.BUFFER_HEIGHT)
+        if(hero.y + hero.height > Game.BUFFER_HEIGHT)
             return true;
 
         return false;
     }
 
     private void extendTheLevel(){
-        //TODO: set a max distance
-        currentDistanceInterval += 5;
+        if(currentDistanceInterval < 160)
+            currentDistanceInterval += 5;
+
         for(Platform p : platforms){
             if(!p.getIsActive()) {
                 int randX = rand.nextInt(Game.BUFFER_WIDTH - Platform.WIDTH);
