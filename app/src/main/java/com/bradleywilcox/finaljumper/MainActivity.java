@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gameAssets = new Assets();
         gameAssets.heroJump = BitmapFactory.decodeResource(getResources(), R.drawable.jump);
         gameAssets.heroStand = BitmapFactory.decodeResource(getResources(), R.drawable.standing);
+        gameAssets.background = BitmapFactory.decodeResource(getResources(), R.drawable.nightscape2);
 
         sensorManager = (SensorManager) getSystemService(getApplicationContext().SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

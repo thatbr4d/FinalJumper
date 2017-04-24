@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +56,6 @@ public class Game extends SurfaceView implements Runnable {
     private GameState gameState;
     private World world;
     private Rect background;
-    private Paint backgroundPaint;
 
     private Context context;
 
@@ -72,7 +72,6 @@ public class Game extends SurfaceView implements Runnable {
         fps = new FPSCounter();
 
         background = new Rect(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
-        backgroundPaint = new Paint(Color.BLACK);
 
         gameState = GameState.RUNNING;
         world = new World();
@@ -117,7 +116,7 @@ public class Game extends SurfaceView implements Runnable {
 
     public void render(float deltaTime) {
         //background
-        gameCanvas.drawRect(background, backgroundPaint);
+        gameCanvas.drawBitmap(Assets.background, null, background, null);
 
         //game world
         world.render(gameCanvas);

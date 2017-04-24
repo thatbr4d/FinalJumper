@@ -12,5 +12,6 @@ import android.graphics.Bitmap;
 public class Assets {
     public static Bitmap heroJump;
     public static Bitmap heroStand;
+    public static Bitmap background;
 
 }
