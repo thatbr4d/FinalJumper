@@ -20,7 +20,6 @@ import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private Game game;
-    private Assets gameAssets;
 
     private SensorManager sensorManager;
     private Sensor accel;
@@ -37,10 +36,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         Bitmap buffer = Bitmap.createBitmap(Game.BUFFER_WIDTH, Game.BUFFER_HEIGHT, Bitmap.Config.RGB_565);
 
-        gameAssets = new Assets();
-        gameAssets.heroJump = BitmapFactory.decodeResource(getResources(), R.drawable.jump);
-        gameAssets.heroStand = BitmapFactory.decodeResource(getResources(), R.drawable.standing);
-        gameAssets.background = BitmapFactory.decodeResource(getResources(), R.drawable.nightscape2);
+        Assets.heroJump = BitmapFactory.decodeResource(getResources(), R.drawable.jump);
+        Assets.heroStand = BitmapFactory.decodeResource(getResources(), R.drawable.standing);
+        Assets.background = BitmapFactory.decodeResource(getResources(), R.drawable.nightscape2);
 
         sensorManager = (SensorManager) getSystemService(getApplicationContext().SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -123,6 +121,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        finish();
+
+        super.onBackPressed();
     }
 
 

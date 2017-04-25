@@ -84,7 +84,6 @@ public class World {
             extendTheLevel();
         }
 
-        //InputHandler.reset();
     }
 
     public void render(Canvas canvas){
@@ -119,6 +118,8 @@ public class World {
     private void extendTheLevel(){
         if(currentDistanceInterval < 160)
             currentDistanceInterval += 5;
+
+        currentLevelY -= currentDistanceInterval;
 
         for(Platform p : platforms){
             if(!p.getIsActive()) {
