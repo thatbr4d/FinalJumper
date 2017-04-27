@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -172,7 +173,12 @@ public class Game extends SurfaceView implements Runnable {
         buttLose2.setOnClickListener(new Button.OnClickListener(){
             @Override
             public  void onClick(View v){
+
                 Intent intent = new Intent(context, Start.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+
                 context.startActivity(intent);
                 popupWindow.dismiss();
             }
