@@ -1,6 +1,7 @@
 package com.bradleywilcox.finaljumper;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
 
     public TextView txt1, txtPop;
     public Button butt1, butt2, buttPop;
+    public MediaPlayer intro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +31,20 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
 
         butt1.setOnClickListener(this);
         butt2.setOnClickListener(this);
-
+        intro = MediaPlayer.create(this, R.raw.intro);
+        intro.start();
+        intro.setLooping(true);
 
     }
-
 
     @Override
     public void onClick(View v)
     {
-
+        intro.release();
         if(v==butt1)
             startActivity(new Intent(this, MainActivity.class));
         if(v==butt2)
             runPopup();
-
     }
 
     public void runPopup() {
