@@ -21,6 +21,7 @@ public class Assets {
     public static Bitmap background;
     public static Bitmap pauseButton;
     public static Bitmap playButton;
+    public static Bitmap cloud;
 
 
     private static SoundPool soundPool;

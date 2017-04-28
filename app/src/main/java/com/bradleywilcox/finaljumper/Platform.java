@@ -3,6 +3,7 @@ package com.bradleywilcox.finaljumper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Platform extends GameObject {
 
     private Paint paint;
     private boolean isActive;
+    private RectF drawingRect;
 
     public Platform(int x, int y) {
         this.width = WIDTH;
@@ -30,6 +32,7 @@ public class Platform extends GameObject {
         this.y = y;
 
         this.isActive = true;
+        drawingRect = new RectF(x, y, x + width, x + height);
     }
 
     @Override
@@ -40,7 +43,8 @@ public class Platform extends GameObject {
 
     @Override
     public void render(Canvas canvas) {
-        canvas.drawRect(x, y, x + width, y + height, paint);
+        drawingRect.set(x - 7, y - 20, x + width + 7, y + height + 20);
+        canvas.drawBitmap(Assets.cloud, null, drawingRect, null);
     }
 
     public boolean getIsActive(){

@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Assets.background = BitmapFactory.decodeResource(getResources(), R.drawable.nightscape2);
         Assets.pauseButton = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
         Assets.playButton = BitmapFactory.decodeResource(getResources(), R.drawable.play);
+        Assets.cloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
 
         sensorManager = (SensorManager) getSystemService(getApplicationContext().SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
