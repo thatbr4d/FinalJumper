@@ -9,18 +9,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/pause_menu1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:id="@+id/imageView3" />
+        android:id="@+id/imageView3"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:text="About"
-        android:textSize="40sp"
         android:textColor="@android:color/white"
+        android:textSize="40sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:id="@+id/textViewAboutPop"
+        android:layout_marginTop="10dp"
+        android:id="@+id/textViewAbout"
         android:layout_alignTop="@+id/imageView3"
         android:layout_centerHorizontal="true" />
 
@@ -28,20 +28,21 @@
         android:text="@string/about"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewAboutPop"
+        android:layout_below="@+id/textViewAbout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:id="@+id/textViewAboutPop2" />
+        android:layout_marginTop="49dp"
+        android:id="@+id/textViewAbout2" />
 
     <Button
         android:text="Close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:background="@drawable/roundbutton"
         android:textColor="@android:color/white"
-        android:layout_below="@+id/textViewAboutPop2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
-        android:id="@+id/buttonPopClose" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/buttonAboutClose"
+        android:layout_below="@+id/textViewAbout2"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
