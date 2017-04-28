@@ -15,7 +15,8 @@ import java.util.Random;
  */
 
 public class World {
-    public static final int GRAVITY = 175;
+    public static final int EMU_GRAVITY = 275;
+    public static final int GRAVITY = 375;
 
     private Hero hero;
     private ArrayList<Platform> platforms;

@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -58,20 +59,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         game = new Game(this, buffer);
 
+        InputHandler.reset();
         setContentView(game);
+
+       InputHandler.IsEmulator = Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
+
     }
 
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
-        float accelX = sensorEvent.values[0];
-        if(accelX > .5) {
-            InputHandler.moveLeft = true;
-            InputHandler.moveRight = false;
-        }else if (accelX < -.5){
-            InputHandler.moveRight = true;
-            InputHandler.moveLeft = false;
+        if(!InputHandler.IsEmulator) {
+            float accelX = sensorEvent.values[0];
+            InputHandler.accel = accelX * -10;
         }
     }
 
@@ -82,24 +89,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      *
      */
     @Override
-    public boolean onKeyUp(int i, KeyEvent keyEvent){
-        if (keyEvent.getAction() == KeyEvent.ACTION_UP) {
+    public boolean onKeyDown(int i, KeyEvent keyEvent){
 
-            switch(i){
+        if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+
+            switch (i) {
                 case KeyEvent.KEYCODE_A:
-                    InputHandler.moveLeft = true;
-                    InputHandler.moveRight = false;
+                    InputHandler.accel = -5;
+
                     return true;
                 case KeyEvent.KEYCODE_D:
-                    InputHandler.moveRight = true;
-                    InputHandler.moveLeft = false;
+                    InputHandler.accel = 5;
+
                     return true;
                 default:
-                    super.onKeyUp(i, keyEvent);
+                    super.onKeyDown(i, keyEvent);
             }
-
         }
-        return false;
+
+        return super.onKeyDown(i, keyEvent);
     }
 
 

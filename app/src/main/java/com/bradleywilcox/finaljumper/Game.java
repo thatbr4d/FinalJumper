@@ -131,14 +131,14 @@ public class Game extends SurfaceView implements Runnable {
         //background
         gameCanvas.drawBitmap(Assets.background, null, background, null);
 
+        //game world
+        world.render(gameCanvas);
+
         //menu
         if(gameState != GameState.PAUSE)
             gameCanvas.drawBitmap(Assets.pauseButton, null, pause, null);
         else
             gameCanvas.drawBitmap(Assets.playButton, null, pause, null);
-
-        //game world
-        world.render(gameCanvas);
 
         if (gameState == GameState.GAME_OVER) {
             gameLost(true);
