@@ -8,8 +8,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -24,12 +26,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor accel;
 
+    private float scaleX, scaleY;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        scaleX = (float)Game.BUFFER_WIDTH / (float)displaymetrics.widthPixels;
+        scaleY = (float)Game.BUFFER_HEIGHT / (float)displaymetrics.heightPixels;
 
         Data.context = getApplicationContext();
         Data.HighScore = Data.loadHighScore();
@@ -39,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Assets.heroJump = BitmapFactory.decodeResource(getResources(), R.drawable.jump);
         Assets.heroStand = BitmapFactory.decodeResource(getResources(), R.drawable.standing);
         Assets.background = BitmapFactory.decodeResource(getResources(), R.drawable.nightscape2);
+        Assets.pauseButton = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
+        Assets.playButton = BitmapFactory.decodeResource(getResources(), R.drawable.play);
 
         sensorManager = (SensorManager) getSystemService(getApplicationContext().SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -136,6 +148,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+
+        if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+            InputHandler.touchX = motionEvent.getX() * scaleX;
+            InputHandler.touchY = motionEvent.getY() * scaleY;
+        }
+
+        return true;
+    }
+
 
     //TODO: add asset cleanup
 

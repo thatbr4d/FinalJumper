@@ -13,5 +13,7 @@ public class Assets {
     public static Bitmap heroJump;
     public static Bitmap heroStand;
     public static Bitmap background;
+    public static Bitmap pauseButton;
+    public static Bitmap playButton;
 
 }

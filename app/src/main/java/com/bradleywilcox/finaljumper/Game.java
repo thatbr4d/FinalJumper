@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -40,7 +41,8 @@ public class Game extends SurfaceView implements Runnable {
 
     public enum GameState{
         RUNNING,
-        GAME_OVER
+        GAME_OVER,
+        PAUSE
     }
 
     public static final int BUFFER_WIDTH = 320;
@@ -57,6 +59,7 @@ public class Game extends SurfaceView implements Runnable {
     private GameState gameState;
     private World world;
     private Rect background;
+    private Rect pause;
 
     private Context context;
 
@@ -73,6 +76,7 @@ public class Game extends SurfaceView implements Runnable {
         fps = new FPSCounter();
 
         background = new Rect(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
+        pause = new Rect(BUFFER_WIDTH - 64, 0, BUFFER_WIDTH - 64 + 64, 64);
 
         gameState = GameState.RUNNING;
         world = new World();
@@ -113,17 +117,30 @@ public class Game extends SurfaceView implements Runnable {
             Data.saveHighScore();
         }
 
+        if(InputHandler.touchX > BUFFER_WIDTH - 64)
+            if(InputHandler.touchY < 64)
+                if(gameState == GameState.RUNNING)
+                    gameState = GameState.PAUSE;
+                else if(gameState == GameState.PAUSE)
+                    gameState = GameState.RUNNING;
+
+        InputHandler.resetTouch();
     }
 
     public void render(float deltaTime) {
         //background
         gameCanvas.drawBitmap(Assets.background, null, background, null);
 
+        //menu
+        if(gameState != GameState.PAUSE)
+            gameCanvas.drawBitmap(Assets.pauseButton, null, pause, null);
+        else
+            gameCanvas.drawBitmap(Assets.playButton, null, pause, null);
+
         //game world
         world.render(gameCanvas);
 
         if (gameState == GameState.GAME_OVER) {
-            //gameCanvas.drawText("GAME OVER", 135, 240, tempPaint);
             gameLost(true);
             counter +=1;
         }
@@ -203,5 +220,7 @@ public class Game extends SurfaceView implements Runnable {
             }
         }
     }
+
+
 
 }
