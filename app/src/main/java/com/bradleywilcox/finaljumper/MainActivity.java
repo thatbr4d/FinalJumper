@@ -108,9 +108,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         Data.saveHighScore();
         game.pause();
-        SoundFiles.clearSounds();
+        Assets.clearSounds();
 
         sensorManager.unregisterListener(this);
+
+        if(isFinishing())
+            Assets.recycleBitmaps();
     }
 
     @Override
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         fullScreen();
 
-        SoundFiles.loadSoundPool(getApplicationContext());
+        Assets.loadSoundPool(getApplicationContext());
         sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_GAME);
 
         game.resume();
@@ -160,7 +163,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return true;
     }
 
-
-    //TODO: add asset cleanup
 
 }

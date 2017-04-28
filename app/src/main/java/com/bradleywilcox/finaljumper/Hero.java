@@ -84,7 +84,7 @@ public class Hero extends GameObject{
 
     public void hitPlatform() {
         velocity.y = JUMP_VELOCITY;
-        SoundFiles.playSound(1);
+        Assets.playSound(1);
     }
 
     public float getVelocityY(){

@@ -67,7 +67,7 @@ public class Score extends GameObject {
     {
         if(state == true && counter==1)
         {
-            SoundFiles.playSound(2);
+            Assets.playSound(2);
         }
     }
 

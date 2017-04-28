@@ -153,7 +153,7 @@ public class Game extends SurfaceView implements Runnable {
     {
         if(state==true && counter ==1)
         {
-            SoundFiles.playSound(3);
+            Assets.playSound(3);
 
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
