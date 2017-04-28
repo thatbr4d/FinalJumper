@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +19,8 @@ import android.widget.TextView;
 
 public class Start extends AppCompatActivity implements View.OnClickListener {
 
-    public TextView txt1, txtPop;
-    public Button butt1, butt2, buttPop;
-    public MediaPlayer intro;
+    public TextView txt1, txtPop, txtPop2;
+    public Button butt1, butt2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +33,12 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
 
         butt1.setOnClickListener(this);
         butt2.setOnClickListener(this);
-        intro = MediaPlayer.create(this, R.raw.intro);
-        intro.start();
-        intro.setLooping(true);
 
     }
 
     @Override
     public void onClick(View v)
     {
-
-        intro.release();
       
         if(v==butt1) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -54,30 +49,12 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
             startActivity(intent);
         }
 
-        if(v==butt2)
-            runPopup();
-    }
+        if(v==butt2) {
+            Intent intent = new Intent(this, About.class);
+            startActivity(intent);
+        }
 
-    public void runPopup() {
 
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.about_pop, null);
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        buttPop = (Button) popupView.findViewById(R.id.buttonPopClose);
-        txtPop = (TextView) popupView.findViewById(R.id.textView2);
-        popupWindow.showAtLocation(butt2, 150, 100, 0);
-
-        buttPop.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public  void onClick(View v){
-                popupWindow.dismiss();
-            }
-        });
     }
 
 

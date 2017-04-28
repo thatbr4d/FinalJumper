@@ -52,9 +52,8 @@ public class Score extends GameObject {
         if(this.score > highscore){
             Data.HighScore = this.score;
 
-            if(highscore > 0)
-                gameHigh(true);
-
+            //if(highscore > 0)
+            gameHigh(true);
             counter+=1;
         }
         else
