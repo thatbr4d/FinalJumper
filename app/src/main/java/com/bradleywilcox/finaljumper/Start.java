@@ -18,9 +18,8 @@ import android.widget.TextView;
 
 public class Start extends AppCompatActivity implements View.OnClickListener {
 
-    public TextView txt1, txtPop;
+    public TextView txt1, txtPop, txtPop2;
     public Button butt1, butt2, buttPop;
-    public MediaPlayer intro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +32,12 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
 
         butt1.setOnClickListener(this);
         butt2.setOnClickListener(this);
-        intro = MediaPlayer.create(this, R.raw.intro);
-        intro.start();
-        intro.setLooping(true);
 
     }
 
     @Override
     public void onClick(View v)
     {
-
-        intro.release();
       
         if(v==butt1) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -69,7 +63,8 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         buttPop = (Button) popupView.findViewById(R.id.buttonPopClose);
-        txtPop = (TextView) popupView.findViewById(R.id.textView2);
+        txtPop = (TextView) popupView.findViewById(R.id.textViewAboutPop);
+        txtPop2 = (TextView) popupView.findViewById(R.id.textViewAboutPop2);
         popupWindow.showAtLocation(butt2, 150, 100, 0);
 
         buttPop.setOnClickListener(new Button.OnClickListener(){
