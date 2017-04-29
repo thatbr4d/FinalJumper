@@ -6,10 +6,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -24,12 +27,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor accel;
 
+    private float scaleX, scaleY;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        scaleX = (float)Game.BUFFER_WIDTH / (float)displaymetrics.widthPixels;
+        scaleY = (float)Game.BUFFER_HEIGHT / (float)displaymetrics.heightPixels;
 
         Data.context = getApplicationContext();
         Data.HighScore = Data.loadHighScore();
@@ -39,26 +50,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Assets.heroJump = BitmapFactory.decodeResource(getResources(), R.drawable.jump);
         Assets.heroStand = BitmapFactory.decodeResource(getResources(), R.drawable.standing);
         Assets.background = BitmapFactory.decodeResource(getResources(), R.drawable.nightscape2);
+        Assets.pauseButton = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
+        Assets.playButton = BitmapFactory.decodeResource(getResources(), R.drawable.play);
+        Assets.cloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
 
         sensorManager = (SensorManager) getSystemService(getApplicationContext().SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         game = new Game(this, buffer);
 
+        InputHandler.reset();
         setContentView(game);
+
+       InputHandler.IsEmulator = Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
+
     }
 
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
-        float accelX = sensorEvent.values[0];
-        if(accelX > .5) {
-            InputHandler.moveLeft = true;
-            InputHandler.moveRight = false;
-        }else if (accelX < -.5){
-            InputHandler.moveRight = true;
-            InputHandler.moveLeft = false;
+        if(!InputHandler.IsEmulator) {
+            float accelX = sensorEvent.values[0];
+            InputHandler.accel = accelX * -10;
         }
     }
 
@@ -69,24 +89,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      *
      */
     @Override
-    public boolean onKeyUp(int i, KeyEvent keyEvent){
-        if (keyEvent.getAction() == KeyEvent.ACTION_UP) {
+    public boolean onKeyDown(int i, KeyEvent keyEvent){
 
-            switch(i){
+        if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+
+            switch (i) {
                 case KeyEvent.KEYCODE_A:
-                    InputHandler.moveLeft = true;
-                    InputHandler.moveRight = false;
+                    InputHandler.accel = -5;
+
                     return true;
                 case KeyEvent.KEYCODE_D:
-                    InputHandler.moveRight = true;
-                    InputHandler.moveLeft = false;
+                    InputHandler.accel = 5;
+
                     return true;
                 default:
-                    super.onKeyUp(i, keyEvent);
+                    super.onKeyDown(i, keyEvent);
             }
-
         }
-        return false;
+
+        return super.onKeyDown(i, keyEvent);
     }
 
 
@@ -96,9 +117,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         Data.saveHighScore();
         game.pause();
-        SoundFiles.clearSounds();
+        Assets.clearSounds();
 
         sensorManager.unregisterListener(this);
+
+        if(isFinishing())
+            Assets.recycleBitmaps();
     }
 
     @Override
@@ -106,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         fullScreen();
 
-        SoundFiles.loadSoundPool(getApplicationContext());
+        Assets.loadSoundPool(getApplicationContext());
         sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_GAME);
 
         game.resume();
@@ -137,6 +161,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    //TODO: add asset cleanup
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+
+        if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+            InputHandler.touchX = motionEvent.getX() * scaleX;
+            InputHandler.touchY = motionEvent.getY() * scaleY;
+        }
+
+        return true;
+    }
+
 
 }

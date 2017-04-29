@@ -8,11 +8,18 @@ package com.bradleywilcox.finaljumper;
  */
 
 public class InputHandler {
-    public static boolean moveLeft;
-    public static boolean moveRight;
+    public static boolean IsEmulator;
+    public static float touchX;
+    public static float touchY;
+
+    public static float accel;
 
     public static void reset(){
-        moveLeft = false;
-        moveRight = false;
+        accel = 0;
+    }
+
+    public static void resetTouch(){
+        touchX = 0;
+        touchY = 0;
     }
 }

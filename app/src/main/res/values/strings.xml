@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FinalJumper</string>
+    <string name="app_name">Final Jumper</string>
     <string name="about">Final Jumper is game that resembles DoodleJump where the
     object is to jump from platform to platform.\nCharacter movement is controlled by
         the A and D keys for left and right.\nThe higher you jump, the higher the score.\nGood

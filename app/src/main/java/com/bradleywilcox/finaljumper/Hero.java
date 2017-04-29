@@ -29,8 +29,8 @@ import java.util.Set;
 
 public class Hero extends GameObject{
 
-    private static final int JUMP_VELOCITY = -250;
-    private static final int MOVE_VELOCITY = 75;
+    private static final int JUMP_VELOCITY = -300;
+    private static final int MOVE_VELOCITY = 500;
     public static final int WIDTH = 30;
     public static final int HEIGHT = 30;
 
@@ -53,15 +53,10 @@ public class Hero extends GameObject{
 
     @Override
     public void update(float delta) {
-        if(InputHandler.moveLeft)
-            velocity.x = -MOVE_VELOCITY;
-        else if(InputHandler.moveRight)
-            velocity.x = MOVE_VELOCITY;
-        else
-            velocity.x = 0;
 
+        velocity.x = InputHandler.accel * MOVE_VELOCITY * delta;
+        velocity.y += InputHandler.IsEmulator ? World.EMU_GRAVITY * delta : World.GRAVITY * delta;
 
-        velocity.y += World.GRAVITY * delta;
         x += velocity.x * delta;
         y += velocity.y * delta;
 
@@ -69,6 +64,10 @@ public class Hero extends GameObject{
             x = 0;
         else if(x < 0)
             x = Game.BUFFER_WIDTH;
+
+        // "try" to simulate the feel of the accelerometer control on the device
+        if(InputHandler.IsEmulator)
+            InputHandler.accel -= InputHandler.accel * .9f * delta;
     }
 
     @Override
@@ -84,7 +83,7 @@ public class Hero extends GameObject{
 
     public void hitPlatform() {
         velocity.y = JUMP_VELOCITY;
-        SoundFiles.playSound(1);
+        Assets.playSound(1);
     }
 
     public float getVelocityY(){
