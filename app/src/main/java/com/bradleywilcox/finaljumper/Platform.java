@@ -20,6 +20,8 @@ public class Platform extends GameObject {
     private Paint paint;
     private boolean isActive;
     private RectF drawingRect;
+    private boolean isMoving;
+    private int direction;
 
     public Platform(int x, int y) {
         this.width = WIDTH;
@@ -32,6 +34,8 @@ public class Platform extends GameObject {
         this.y = y;
 
         this.isActive = true;
+        this.isMoving = false;
+        this.direction = 30;
         drawingRect = new RectF(x, y, x + width, x + height);
     }
 
@@ -39,6 +43,15 @@ public class Platform extends GameObject {
     public void update(float delta){
         if(this.y > Game.BUFFER_HEIGHT)
             isActive = false;
+
+        if(isActive && isMoving){
+            if(this.x + this.width >= Game.BUFFER_WIDTH)
+                direction = -30;
+            else if(this.x <= 0)
+                direction = 30;
+
+            this.x += direction * delta;
+        }
     }
 
     @Override
@@ -51,10 +64,11 @@ public class Platform extends GameObject {
         return this.isActive;
     }
 
-    public void setPosition(int x, int y){
+    public void setPosition(int x, int y, boolean isMoving){
         this.x = x;
         this.y = y;
         this.isActive = true;
+        this.isMoving = isMoving;
     }
 
 }

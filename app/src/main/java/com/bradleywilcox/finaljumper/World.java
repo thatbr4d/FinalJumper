@@ -61,16 +61,14 @@ public class World {
         hero.update(delta);
 
         if(hero.getVelocityY() > 0)
-            for(Platform p : platforms){
-                p.update(delta);
-
+            for(Platform p : platforms)
                 if(Collisions.isColliding(hero, p)) {
                     if((hero.y + hero.height * .5) <= p.y) {
                         hero.hitPlatform();
                         break;
                     }
                 }
-            }
+
 
         if(hero.y < offsetPosition)
             addWorldOffset(offsetPosition - hero.y);
@@ -78,6 +76,8 @@ public class World {
 
         int notActive = 0;
         for(Platform p : platforms){
+            p.update(delta);
+
             if(!p.getIsActive())
                 notActive++;
         }
@@ -117,7 +117,7 @@ public class World {
     }
 
     private void extendTheLevel(){
-        if(currentDistanceInterval < 160)
+        if(currentDistanceInterval < 150)
             currentDistanceInterval += 5;
 
         currentLevelY -= currentDistanceInterval;
@@ -125,7 +125,8 @@ public class World {
         for(Platform p : platforms){
             if(!p.getIsActive()) {
                 int randX = rand.nextInt(Game.BUFFER_WIDTH - Platform.WIDTH);
-                p.setPosition(randX, currentLevelY);
+                int chanceOfMoving = rand.nextInt(150 - currentDistanceInterval);
+                p.setPosition(randX, currentLevelY, chanceOfMoving < 25);
                 currentLevelY -= currentDistanceInterval;
             }
         }
