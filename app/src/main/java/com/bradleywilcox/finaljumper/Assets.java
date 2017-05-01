@@ -22,6 +22,7 @@ public class Assets {
     public static Bitmap pauseButton;
     public static Bitmap playButton;
     public static Bitmap cloud;
+    public static Bitmap asteroid;
 
 
     private static SoundPool soundPool;
@@ -34,6 +35,8 @@ public class Assets {
         background.recycle();
         pauseButton.recycle();
         playButton.recycle();
+        cloud.recycle();
+        asteroid.recycle();
     }
 
     public static void loadSoundPool(Context context) {
