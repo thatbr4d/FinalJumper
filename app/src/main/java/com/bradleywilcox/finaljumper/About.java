@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-/**
- * Created by MichaelCha on 4/28/2017.
- */
+
 
 public class About extends AppCompatActivity implements View.OnClickListener {
 

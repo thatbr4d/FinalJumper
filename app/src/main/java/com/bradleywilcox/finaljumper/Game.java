@@ -151,7 +151,7 @@ public class Game extends SurfaceView implements Runnable {
 
     public void gameLost(boolean state)
     {
-        if(state==true && counter ==1)
+        if(state && counter ==1)
         {
             Assets.playSound(3);
 

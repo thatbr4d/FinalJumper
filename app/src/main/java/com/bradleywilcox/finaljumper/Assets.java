@@ -27,7 +27,7 @@ public class Assets {
 
     private static SoundPool soundPool;
     private static Set<Integer> soundsLoaded;
-    private static int soundJumpId, soundHighScoreId, soundGameOverId;
+    private static int soundJumpId, soundHighScoreId, soundGameOverId, soundHitObject;
 
     public static void recycleBitmaps(){
         heroJump.recycle();
@@ -64,6 +64,7 @@ public class Assets {
         soundJumpId = soundPool.load(context, R.raw.jump, 1);
         soundHighScoreId = soundPool.load(context, R.raw.tada, 1);
         soundGameOverId = soundPool.load(context, R.raw.lost, 1);
+        soundHitObject = soundPool.load(context, R.raw.hit, 1);
         // add other sounds
     }
 
@@ -75,6 +76,8 @@ public class Assets {
             soundPool.play(soundHighScoreId, 1.0f, 1.0f, 0, 0, 1.0f);
         else if(x==3)
             soundPool.play(soundGameOverId, 1.0f, 1.0f, 0, 0, 1.0f);
+        else if(x==4)
+            soundPool.play(soundHitObject, 1.0f, 1.0f, 0, 0, 1.0f);
     }
 
     public static void clearSounds() {

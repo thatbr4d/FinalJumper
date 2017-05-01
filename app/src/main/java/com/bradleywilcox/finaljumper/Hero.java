@@ -101,7 +101,7 @@ public class Hero extends GameObject{
         if(!isHit){
             isHit = true;
             velocity.y = 0;
-            //play sound
+            Assets.playSound(4);
         }
     }
 

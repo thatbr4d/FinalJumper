@@ -64,7 +64,7 @@ public class Score extends GameObject {
 
     public void gameHigh(Boolean state)
     {
-        if(state == true && counter==1)
+        if(state && counter==1)
         {
             Assets.playSound(2);
         }
