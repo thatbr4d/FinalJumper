@@ -38,6 +38,8 @@ public class Hero extends GameObject{
     private PointF velocity;
     private RectF drawingRect;
 
+    private boolean isHit;
+
     public Hero(int x, int y) {
         this.width = WIDTH;
         this.height = HEIGHT;
@@ -49,13 +51,18 @@ public class Hero extends GameObject{
         this.y = y;
 
         drawingRect = new RectF(x, y, x + width, x + height);
+        isHit = false;
     }
 
     @Override
     public void update(float delta) {
 
-        velocity.x = InputHandler.accel * MOVE_VELOCITY * delta;
-        velocity.y += InputHandler.IsEmulator ? World.EMU_GRAVITY * delta : World.GRAVITY * delta;
+        if(isHit)
+            velocity.x = 0;
+        else
+            velocity.x = InputHandler.accel * MOVE_VELOCITY * delta;
+
+            velocity.y += InputHandler.IsEmulator ? World.EMU_GRAVITY * delta : World.GRAVITY * delta;
 
         x += velocity.x * delta;
         y += velocity.y * delta;
@@ -88,6 +95,18 @@ public class Hero extends GameObject{
 
     public float getVelocityY(){
         return this.velocity.y;
+    }
+
+    public void hit(){
+        if(!isHit){
+            isHit = true;
+            velocity.y = 0;
+            //play sound
+        }
+    }
+
+    public boolean isHit(){
+        return isHit;
     }
 
 }

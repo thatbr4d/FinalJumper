@@ -20,6 +20,7 @@ public class World {
 
     private Hero hero;
     private ArrayList<Platform> platforms;
+    private ArrayList<Asteroid> asteroids;
     private Score score;
 
     private int offsetPosition;
@@ -31,6 +32,7 @@ public class World {
         hero = new Hero((Game.BUFFER_WIDTH / 2) - (Hero.WIDTH / 2), Game.BUFFER_HEIGHT - Hero.HEIGHT - Platform.HEIGHT * 4);
 
         platforms = new ArrayList<>(25);
+        asteroids = new ArrayList<>(5);
         score = new Score();
         rand = new Random();
 
@@ -44,7 +46,7 @@ public class World {
         int platformHalf = Platform.WIDTH / 2;
 
         //starting platform
-        currentLevelY = Game.BUFFER_HEIGHT - Platform.HEIGHT * 2;
+        currentLevelY = Game.BUFFER_HEIGHT - Platform.HEIGHT * 3;
         platforms.add(new Platform(worldHalf - platformHalf, currentLevelY));
 
         currentDistanceInterval = 50;
@@ -55,12 +57,16 @@ public class World {
             platforms.add(new Platform(randX, currentLevelY));
             currentLevelY -= currentDistanceInterval;
         }
+
+        for(int i = 0; i < 5; i++)
+            asteroids.add(i, new Asteroid(0, Game.BUFFER_HEIGHT * 2));
+
     }
 
     public void update(float delta){
         hero.update(delta);
 
-        if(hero.getVelocityY() > 0)
+        if(hero.getVelocityY() > 0 && !hero.isHit())
             for(Platform p : platforms)
                 if(Collisions.isColliding(hero, p)) {
                     if((hero.y + hero.height * .5) <= p.y) {
@@ -69,6 +75,11 @@ public class World {
                     }
                 }
 
+        for(Asteroid a : asteroids){
+            a.update(delta);
+            if(Collisions.isColliding(hero, a))
+                hero.hit();
+        }
 
         if(hero.y < offsetPosition)
             addWorldOffset(offsetPosition - hero.y);
@@ -90,17 +101,21 @@ public class World {
     public void render(Canvas canvas){
         hero.render(canvas);
 
-        for(Platform p : platforms){
+        for(Platform p : platforms)
             p.render(canvas);
-        }
+
+        for(Asteroid a : asteroids)
+            a.render(canvas);
 
         score.render(canvas);
     }
 
     public void addWorldOffset(float offset){
-        for(Platform p : platforms){
+        for(Platform p : platforms)
             p.addOffsetY(offset);
-        }
+
+        for(Asteroid a : asteroids)
+            a.addOffsetY(offset);
 
         hero.addOffsetY(offset);
 
@@ -117,7 +132,7 @@ public class World {
     }
 
     private void extendTheLevel(){
-        if(currentDistanceInterval < 150)
+        if(currentDistanceInterval < 140)
             currentDistanceInterval += 5;
 
         currentLevelY -= currentDistanceInterval;
@@ -125,9 +140,20 @@ public class World {
         for(Platform p : platforms){
             if(!p.getIsActive()) {
                 int randX = rand.nextInt(Game.BUFFER_WIDTH - Platform.WIDTH);
-                int chanceOfMoving = rand.nextInt(150 - currentDistanceInterval);
+                int chanceOfMoving = rand.nextInt(140 - currentDistanceInterval);
                 p.setPosition(randX, currentLevelY, chanceOfMoving < 25);
                 currentLevelY -= currentDistanceInterval;
+            }
+        }
+
+        for(Asteroid a : asteroids){
+            if(!a.getIsActive()){
+                int randX = rand.nextInt(Game.BUFFER_WIDTH - Asteroid.WIDTH);
+                int chanceOfSpawn = rand.nextInt(140 - currentDistanceInterval);
+                if(chanceOfSpawn < 50) {
+                    a.setPosition(randX, currentLevelY);
+                    break;
+                }
             }
         }
     }

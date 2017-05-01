@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Final Jumper</string>
     <string name="about">Final Jumper is game that resembles DoodleJump where the
-    object is to jump from platform to platform.\nCharacter movement is controlled by
-        the A and D keys for left and right.\nThe higher you jump, the higher the score.\nGood
-        luck and Have Fun!!\n\n\nDevelopers:\nBrad Wilcox and Michael Cha</string>
+    object is to jump from platform to platform.\n\nCharacter movement is controlled by
+        the accelerometer (tilting your phone left/right).  For demo and testing purposes, the A and D keys may also be used for left and right movement.\n\nThe higher you jump, the higher the score. Good
+        luck and Have Fun!!\n\nDevelopers:\nBrad Wilcox and Michael Cha</string>
 </resources>
